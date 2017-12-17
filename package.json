@@ -2,7 +2,11 @@
   "name": "pulling-data",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "pulling-data-server.js",
+  "dependencies": {
+    "gdax": "^0.4.2"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,10 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/evantsmith/pulling-data.git"
   },
-  "keywords": [
-    "Data"
-  ],
-  "author": "Sparky and Keenweevil",
+  "author": "Sparky and KeenWeevil",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/evantsmith/pulling-data/issues"

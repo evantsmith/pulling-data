@@ -119,24 +119,22 @@ app.get('/pullData', function(req,res){
 app.post('/saveData', function(req,res){
 
 
-    var coinObjs = req.body.arrOfCoinObjs;
-
-    for(var i = 0; i < coinObjs.length; i++){
+    for(var i = 0; i < req.body.arrOfCoinObjs.length; i++){
 
         var coinObjToSave = {
 
-            abbrev: coinObjs[i].Abbrev,
-            _id: coinObjs[i].Id,
-            name: coinObjs[i].Name,
-            fullName: coinObjs[i].FullName,
-            totalCoinSupply: coinObjs[i].TotalCoinSupply
+            abbrev: req.body.arrOfCoinObjs[i].Abbrev,
+            _id: req.body.arrOfCoinObjs[i].Id,
+            name: req.body.arrOfCoinObjs[i].Name,
+            fullName: req.body.arrOfCoinObjs[i].FullName,
+            totalCoinSupply: req.body.arrOfCoinObjs[i].TotalCoinSupply
         }
 
         var newCoin = new CoinModel(coinObjToSave);
         // save coin to the database
         newCoin.save(function(err){
             if(err){
-                res.status(500).send(err);
+                console.log(err);
             } else {
                 console.log("Saved the coin");
             }
@@ -179,29 +177,24 @@ app.post('/pullWantedData', function(req,res){
 
 app.post('/saveWantedData', function(req,res){
 
-    var coinObjs = req.body.arrOfCoinObjs;
-    console.log(req.body.arrOfCoinObjs)
+    for(var i = 0; i < req.body.arrOfCoinObjs.length; i++){
 
-    for(var i = 0; i < coinObjs.length; i++){
+        var coinObjToSave =  {
 
-        var coinObjToSave = coinObjs[i]; 
+            abbrev: req.body.arrOfCoinObjs[i].abbrev,
+            name: req.body.arrOfCoinObjs[i].name,
+            repoUrl: req.body.arrOfCoinObjs[i].repoUrl,
+            repoStars: req.body.arrOfCoinObjs[i].repoStars,
+            repoForks: req.body.arrOfCoinObjs[i].repoForks,
+            repoSubscribers: req.body.arrOfCoinObjs[i].repoSubscribers
 
-        // {
-
-        //     abbrev: coinObjs[i].abbrev,
-        //     name: coinObjs[i].name,
-        //     repoUrl: coinObjs[i].repoUrl,
-        //     repoStars: coinObjs[i].repoStars,
-        //     repoForks: coinObjs[i].repoForks,
-        //     repoSubscribers: coinObjs[i].repoSubscribers
-
-        // }
+        }
 
         var newCoin2 = new Coin2Model(coinObjToSave);
         // save coin to the database
         newCoin2.save(function(err){
             if(err){
-                res.status(500).send(err);
+                console.log(err);
             } else {
                 console.log("Saved the coin");
             }

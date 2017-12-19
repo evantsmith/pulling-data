@@ -85,16 +85,16 @@ var mainVue = new Vue({
                     var abbrev1 = dataFromServer.Data.General.Name;
                     var name1 =  dataFromServer.Data.General.CoinName;
 
-                    var repoUrl1 = '';
-                    var repoStars1 = '';
-                    var repoForks1 = '';
-                    var repoSubscribers1 = '';
+                    var repoUrl1 = ' ';
+                    var repoStars1 = ' ';
+                    var repoForks1 = ' ';
+                    var repoSubscribers1 = ' ';
 
                     if(typeof hasList === 'undefined'){
-                        repoUrl1 = '';
-                        repoStars1 = '';
-                        repoForks1 = '';
-                        repoSubscribers1 = '';
+                        repoUrl1 = ' ';
+                        repoStars1 = ' ';
+                        repoForks1 = ' ';
+                        repoSubscribers1 = ' ';
                     } else {
                         
                         repoUrl1 = dataFromServer.Data.CodeRepository.List[0].url;
@@ -134,7 +134,7 @@ var mainVue = new Vue({
         },
         consoleToCheck: function(event){
             event.preventDefault();
-            console.log(mainVue.arrOfCoins2);
+            console.log(mainVue.arrOfCoins2.length);
         }
 
         // saveDataForAll : function(event){

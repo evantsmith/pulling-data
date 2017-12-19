@@ -1,24 +1,27 @@
-#top {
+/* Move down content because we have a fixed navbar that is 3.5rem tall */
+body {
+  padding-top: 3.5rem;
+}
+footer {
+    text-align: center;
+}
+
+:root {
+    font-size: 16px;
+}
+
+h1 {
+    text-align: center;
+}
+
+#vue1 {
     background-color: rgb(0,53,100);
-    width: 100rem;
+    width: 80rem;
+    height: 50rem;
     padding-left: 0;
     padding-right: 0;
     margin-right: 5rem;
     margin-left: 5rem;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    flex-direction: column;
-}
-
-#row-1-t {
-    height: 22rem;
-    width: 100rem;
-    margin-left: 0rem;
-    margin-right: 0rem;
-    background-color: rgb(255,255,255);
-
 }
 
 .flex-container-1 {
@@ -30,7 +33,7 @@
 }
 
 .flex-element {
-    background-color: white;
+    background-color: green;
     width: 11.5rem;
     height: 3.5rem;
     margin: 2px;
@@ -39,4 +42,9 @@
     border-radius: 0.54rem;
     display: flex;
     border: 0.19rem solid black;
+}
+
+#searchBtn {
+    height: 100%;
+    width: 100%;
 }

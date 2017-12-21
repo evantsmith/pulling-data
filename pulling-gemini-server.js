@@ -30,7 +30,9 @@ const btcWS = new WebSocket('wss://api.gemini.com/v1/marketdata/btcusd');
 //     setTimeout(getBtcData, 3000);
 // }
 
-
+// btcWS.on('message', function incoming(btcData) {
+//   console.log('btcData: ', btcData);
+// })
 
 // ethWS.on('message', function incoming(ethData) {
 //   console.log('ethData: ', ethData);
@@ -89,23 +91,27 @@ app.get('/pullData', function(req,res){
 
     var numTimes = 0;
     var dataObj = {};
+    var arrOfData = [];
+
 
     // get initial order book
 
     btcWS.on('message', function(btcData) {
-        
-        if(numTimes < 2){
-            dataObj = JSON.parse(btcData);
-            console.log(dataObj);
-            res.send(dataObj);
-            btcWS.close();
-            numTimes++;                                 
-        } else {
-            btcWS.close();
-            
+
+        dataObj = JSON.parse(btcData);
+
+        //console.log(dataObj.events[0]);
+
+        for(var i = 0; i < dataObj.events.length; i++){
+            if(dataObj.events[i].type === 'trade'){
+                console.log(" ")
+                console.log("Timestamp : " + dataObj.timestampms + " ms")
+                console.log(dataObj.events[i]);
+            }
         }
-        //numTimes++;
-    })  
+    })  // end btcWS.on
+    res.send("Something");
+
     
 
 }) // end app.get '/pullData'

@@ -1,14 +1,12 @@
 var mainVue = new Vue({
     el: '#app',
     data: {
-        // arr of strings that are coin abbreviations, used this array to build arrOfCoins
-        arrOfCoinAbbreviations: [],
-
-        // array of coin objects with id and other properties
-        arrOfCoins: [],
-
         // array of coin objects that have social info
-        arrOfCoins2: []
+        arrOfTrades: [],
+        tradePrice: 0,
+        tradeAmount: 0,
+        tradeTime: 0
+
     },
     methods: {
         pullData: function(event){
@@ -16,6 +14,9 @@ var mainVue = new Vue({
 
             $.get('/pullData', function(dataObj){
                 console.log(dataObj);
+                mainVue.tradePrice = dataObj.priceTradedAt;
+                mainVue.tradeAmount = dataObj.amountTraded;
+                mainVue.tradeTime = dataObj.timestamp;
             }) // End of get request
 
         }, // End of pullData

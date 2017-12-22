@@ -8,7 +8,6 @@ var mongoose = require('mongoose');
 
 const WebSocket = require('ws');
  
-const btcWS = new WebSocket('wss://api.gemini.com/v1/marketdata/btcusd');
 // const ethWS = new WebSocket('wss://api.gemini.com/v1/marketdata/ethusd');
 
 // var numTimes = 0;
@@ -93,6 +92,7 @@ app.get('/pullData', function(req,res){
     var dataObj = {};
     var arrOfData = [];
 
+    var btcWS = new WebSocket('wss://api.gemini.com/v1/marketdata/btcusd');
 
     // get initial order book
 
@@ -102,15 +102,27 @@ app.get('/pullData', function(req,res){
 
         //console.log(dataObj.events[0]);
 
-        for(var i = 0; i < dataObj.events.length; i++){
-            if(dataObj.events[i].type === 'trade'){
+            if(dataObj.events[0].type === 'trade'){
+                //btcWS.close();
                 console.log(" ")
                 console.log("Timestamp : " + dataObj.timestampms + " ms")
-                console.log(dataObj.events[i]);
-            }
-        }
+                console.log(dataObj.events[0]);
+
+                var tradeInfo = {
+                    timestamp: dataObj.timestampms,
+                    priceTradedAt: dataObj.events[0].price,
+                    amountTraded: dataObj.events[0].amount
+                }
+                
+                // res.send(tradeInfo);
+                
+            } 
+            // else {
+            //     console.log("not sent to browser");
+            // }
+        
     })  // end btcWS.on
-    res.send("Something");
+    
 
     
 

@@ -42,7 +42,7 @@ app.use(bodyParser.json({limit: '50mb', parameterLimit: 1000000}));
 
 app.use(express.static('./public-gemini'));
 
-mongoose.connect('mongodb://localhost/coinsInfo', {useMongoClient: true});
+mongoose.connect('mongodb://localhost/btc', {useMongoClient: true});
 
 mongoose.connection.once('open', function(){
     console.log("Connnection has been made!");
@@ -53,34 +53,30 @@ mongoose.connection.once('open', function(){
 
 // new schema for model for the collection 'staticcoins' (array) of player objects in database
 
-var CoinSchema = new mongoose.Schema({
+var GemBTCSchema = new mongoose.Schema({
 
-    abbrev: {
-        type: String,
-        required: true
-
-    },
-    _id: {
+    dateAndTime: {
         type: String,
         required: true
     },
-    name: {
-        type: String,
+    timeMS: {
+        type: Number,
         required: true
 
     },
-    fullName: {
-        type: String,
+    price: {
+        type: Number,
         required: true
     },
-    totalCoinSupply: {
-        type: String,
+    amount: {
+        type: Number,
         required: true
-    }
+
+    },
 
 });
 
-var CoinModel = mongoose.model('StaticCoin', CoinSchema);
+var GemBTCModel = mongoose.model('GemBTCTrade', GemBTCSchema);
 
 app.get('/',function(req,res){
     res.sendFile('./public-gemini/html/gemini-index.html',{root: './'});
@@ -88,9 +84,7 @@ app.get('/',function(req,res){
 
 app.get('/pullData', function(req,res){
 
-    var numTimes = 0;
     var dataObj = {};
-    var arrOfData = [];
 
     var btcWS = new WebSocket('wss://api.gemini.com/v1/marketdata/btcusd');
 
@@ -100,35 +94,45 @@ app.get('/pullData', function(req,res){
 
         dataObj = JSON.parse(btcData);
 
-        //console.log(dataObj.events[0]);
-
             if(dataObj.events[0].type === 'trade'){
                 //btcWS.close();
                 console.log(" ")
-                console.log("Timestamp : " + dataObj.timestampms + " ms")
+                var date = new Date(dataObj.timestampms);
+                var msTime = Number(dataObj.timestampms);
+                var thePrice = Number(dataObj.events[0].price);
+                var theAmount = Number(dataObj.events[0].amount);
+                console.log("Date and Time : " + date )
                 console.log(dataObj.events[0]);
 
-                var tradeInfo = {
-                    timestamp: dataObj.timestampms,
-                    priceTradedAt: dataObj.events[0].price,
-                    amountTraded: dataObj.events[0].amount
-                }
-                
-                // res.send(tradeInfo);
-                
-            } 
-            // else {
-            //     console.log("not sent to browser");
-            // }
-        
-    })  // end btcWS.on
-    
+                // changing ms to date and time
 
-    
+                var tradeInfo = {
+
+                    dateAndTime: date,
+                    timeMS: msTime,
+                    price: thePrice,
+                    amount: theAmount
+                }
+
+                var newGemBTCTrade = new GemBTCModel(tradeInfo);
+
+                newGemBTCTrade.save(function(err){
+                    if(err){
+                        console.log(err);
+                    } else {
+                        console.log("Saved the Trade");
+                    }
+                }); // end save
+
+            } // end if statement
+        
+    })  // end btcWS.on 
 
 }) // end app.get '/pullData'
 
-app.postå('/saveData', function(req,res){
+
+
+app.post('/saveData', function(req,res){
     res.send("Completed");
 }) // end app.post for /saveData
 

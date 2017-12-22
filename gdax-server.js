@@ -21,19 +21,23 @@ let lastPrice = {};
 //         }
 //     ]
 // }
-const websocket = new Gdax.WebsocketClient(['BTC-USD']);
+var websocket = new Gdax.WebsocketClient(['BTC-USD']);
 var arrData = [];
-var data = {};
+//var trade = {};
+
 websocket.on('message', dataObj => {
+
 	if(dataObj === null){
 		console.log('error');
-	}
-	else{
-		// Returns a dataObj
-		if(dataObj.type === 'done' || dataObj.type === 'match'){
-			console.log(dataObj);
-			};
-		}
+	} 
+	var trade = dataObj;
+		
+	if(dataObj.type === 'match'){
+		console.log(trade);
+			
+	};
+	// console.log(data);
+
 });
 
 websocket.on('error', err => {
@@ -41,6 +45,7 @@ websocket.on('error', err => {
 		console.log('Handle the error')
 	}
 });
+
 websocket.on('close', () => {
     console.log('Websocket closed');
     webSocketStateChange();

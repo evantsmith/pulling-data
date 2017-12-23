@@ -116,7 +116,7 @@ app.get('/pullData', function(req,res){
 
 }) // end app.get '/pullData'
 
-app.postå('/saveData', function(req,res){
+app.post('/saveData', function(req,res){
     res.send("Completed");
 }) // end app.post for /saveData
 

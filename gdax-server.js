@@ -21,7 +21,7 @@ let lastPrice = {};
 //         }
 //     ]
 // }
-const websocket = new Gdax.WebsocketClient(['BTC-USD']);
+var websocket = new Gdax.WebsocketClient(['BTC-USD']);
 var arrData = [];
 var data = {};
 websocket.on('message', dataObj => {
@@ -49,6 +49,8 @@ websocket.on('close', () => {
 function webSocketStateChange(err) {
 	setTimeout(() => websocket.connect(), 100000);
 };
+
+
 
 // function someAsyncApiCall(callback) {
 //   process.nextTick(callback);

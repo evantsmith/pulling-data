@@ -114,6 +114,10 @@ app.get('/saveGemData', function(req,res){
 
     var btcWS = new WebSocket('wss://api.gemini.com/v1/marketdata/btcusd');
 
+    btcWS.on('close', function open() {
+        console.log('something');
+    });
+
     btcWS.on('error', err => {
         if(err){
             console.log(err);

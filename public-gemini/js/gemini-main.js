@@ -9,10 +9,10 @@ var mainVue = new Vue({
 
     },
     methods: {
-        pullData: function(event){
+        saveGemData: function(event){
             event.preventDefault();
 
-            $.get('/pullData', function(dataObj){
+            $.get('/saveGemData', function(dataObj){
                 console.log(dataObj);
                 mainVue.tradePrice = dataObj.priceTradedAt;
                 mainVue.tradeAmount = dataObj.amountTraded;
@@ -21,15 +21,10 @@ var mainVue = new Vue({
 
         }, // End of pullData
 
-        saveData: function(event){
+        saveGdaxData: function(event){
             event.preventDefault();
 
-            // Sending an object with one property, an array of static coin objects
-            var objectToSend = {
-                arrOfCoinObjs : mainVue.arrOfCoins
-            }
-
-            $.post('/saveData', objectToSend, function(dataFromServer){
+            $.get('/saveGdaxData', function(dataFromServer){
                 console.log(dataFromServer);
             })
 
